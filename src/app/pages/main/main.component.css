@@ -1,0 +1,15 @@
+.outer {
+  @apply text-center;
+}
+
+.input {
+  @apply text-center mt-2;
+}
+
+.label {
+  @apply text-yellow-100 font-bold;
+}
+
+.search {
+  @apply py-5;
+}

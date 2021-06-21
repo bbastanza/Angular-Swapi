@@ -1,0 +1,15 @@
+.outer {
+  @apply container flex h-screen justify-center items-center text-center;
+}
+
+.title {
+  @apply text-gray-200 font-bold text-4xl mb-8 font-mono;
+}
+
+.r2 {
+  @apply m-auto mt-8 h-80 w-auto shadow-md;
+}
+
+.btn {
+  @apply text-2xl;
+}

@@ -1,0 +1,14 @@
+<div class="container outer">
+  <app-pagination></app-pagination>
+  <br />
+  <div class="search">
+    <label class="label" for="searchTerm">Search the Galaxy...</label>
+    <br />
+    <input [(ngModel)]="searchTerm" (ngModelChange)="logger()" id="searchTerm" class="input" type="text"
+      placeholder="I am one with the force" />
+  </div>
+  <br />
+  <a routerLink="">
+    <button class="btn">Back</button>
+  </a>
+</div>
