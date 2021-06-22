@@ -1,10 +1,10 @@
 <div class="container outer">
-  <app-pagination></app-pagination>
+  <app-pagination (onSelected)="getPage($event)"></app-pagination>
   <br />
   <div class="search">
     <label class="label" for="searchTerm">Search the Galaxy...</label>
     <br />
-    <input [(ngModel)]="searchTerm" (ngModelChange)="logger()" id="searchTerm" class="input" type="text"
+    <input [(ngModel)]="searchTerm" id="searchTerm" class="input" type="text"
       placeholder="I am one with the force" />
   </div>
   <br />

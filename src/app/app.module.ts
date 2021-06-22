@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { SplashComponent } from './pages/splash/splash.component';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +22,12 @@ const routes: Routes = [
     PaginationComponent,
     TableComponent,
   ],
-  imports: [FormsModule, BrowserModule, RouterModule.forRoot(routes)],
+  imports: [
+    FormsModule,
+    HttpClientModule,
+    BrowserModule,
+    RouterModule.forRoot(routes),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

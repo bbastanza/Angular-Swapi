@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
+import { Character, CharacterResults } from 'src/assets/interfaces';
 
 @Component({
   selector: 'app-main',
@@ -7,12 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
   searchTerm: string = '';
+  characters: Character[] = [];
+  count: number = 0;
 
-  logger() {
-    console.log(this.searchTerm);
+  ngOnInit(): void {
+    this.getPage(1);
   }
 
-  constructor() {}
+  constructor(private apiService: ApiService) {}
 
-  ngOnInit(): void {}
+  async getPage(number: number): Promise<void> {
+    const { characters, count } = await this.apiService.getPage(number);
+    this.characters = characters;
+    this.count = count;
+  }
 }
