@@ -7,8 +7,7 @@ body {
 }
 
 .btn {
-  @apply bg-yellow-300;
-  @apply text-gray-800;
+  @apply text-gray-800 font-semibold;
   @apply px-5 py-3;
   @apply m-1;
   @apply rounded;

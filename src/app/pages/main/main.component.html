@@ -1,14 +1,15 @@
 <div class="container outer">
-  <app-pagination (onSelected)="getPage($event)"></app-pagination>
-  <br />
   <div class="search">
     <label class="label" for="searchTerm">Search the Galaxy...</label>
     <br />
     <input [(ngModel)]="searchTerm" id="searchTerm" class="input" type="text"
       placeholder="I am one with the force" />
   </div>
+  <app-pagination (onSelected)="getPage($event)"></app-pagination>
+  <br />
+  <app-table [loading]="loading" [characters]="characters"></app-table>
   <br />
   <a routerLink="">
-    <button class="btn">Back</button>
+    <button class="btn bg-yellow-300">Back</button>
   </a>
 </div>

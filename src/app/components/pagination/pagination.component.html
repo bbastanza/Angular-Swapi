@@ -1,1 +1,2 @@
-<button *ngFor="let num of pages" class="btn" (click)="handleClick(num)">{{num}}</button>
+<button *ngFor="let num of pages" class="btn {{currentPage === num ? 'bg-yellow-500': 'bg-yellow-300'}}"
+  (click)="handleClick(num)">{{num}}</button>

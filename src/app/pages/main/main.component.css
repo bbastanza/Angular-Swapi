@@ -7,7 +7,7 @@
 }
 
 .label {
-  @apply text-yellow-100 font-bold;
+  @apply text-yellow-200 font-bold;
 }
 
 .search {

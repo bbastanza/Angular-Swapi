@@ -11,6 +11,8 @@ export class MainComponent implements OnInit {
   searchTerm: string = '';
   characters: Character[] = [];
   count: number = 0;
+  loading: boolean = false;
+  currentPage: number = 0;
 
   ngOnInit(): void {
     this.getPage(1);
@@ -18,9 +20,13 @@ export class MainComponent implements OnInit {
 
   constructor(private apiService: ApiService) {}
 
-  async getPage(number: number): Promise<void> {
-    const { characters, count } = await this.apiService.getPage(number);
+  async getPage(pageNumber: number): Promise<void> {
+    if (this.currentPage === pageNumber) return;
+    this.currentPage = pageNumber;
+    this.loading = true;
+    const { characters, count } = await this.apiService.getPage(pageNumber);
     this.characters = characters;
     this.count = count;
+    this.loading = false;
   }
 }

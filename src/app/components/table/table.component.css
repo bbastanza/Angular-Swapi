@@ -1,0 +1,8 @@
+.thead {
+  @apply sticky top-0 px-6 py-2 text-gray-800 bg-yellow-200 font-bold text-xl;
+}
+
+.tdata {
+  @apply px-6 py-3 text-center text-gray-100  border-gray-400 border border-collapse font-bold;
+  background-color: rgba(36, 36, 36, 0.9);
+}
