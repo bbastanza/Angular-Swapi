@@ -3,7 +3,7 @@
 }
 
 .input {
-  @apply text-center mt-2;
+  @apply text-center mt-3;
 }
 
 .label {

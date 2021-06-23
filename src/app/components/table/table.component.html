@@ -1,13 +1,13 @@
-<div class="flex flex-col mt-6">
-  <div class="flex-grow overflow-auto hover:spin">
-    <table *ngIf="characters.length > 0 && !loading" class="relative w-full border rounded">
+<div *ngIf="characters.length > 0 && !loading" class="flex flex-col">
+  <div class="flex-grow overflow-auto">
+    <table class="relative w-full border rounded">
       <thead class="divide-y">
         <tr class="table-row">
           <th class="thead">Name</th>
           <th class="thead">Birth Year</th>
           <th class="thead">Gender</th>
-          <th class="thead">Height</th>
-          <th class="thead">Mass</th>
+          <th class="thead">Height <span class="text-sm">(cm)</span></th>
+          <th class="thead">Mass <span class="text-sm">(kg)</span></th>
           <th class="thead">Species</th>
           <th class="thead">Homeworld</th>
         </tr>
@@ -16,9 +16,8 @@
       <tr class="table-row" *ngFor="let character of characters">
         <td class="tdata">{{character.name}}</td>
         <td class="tdata">{{character.birth_year}}</td>
-        <td class="tdata {{character.gender === 'male' || character.gender === 'female' ? 'text-4xl': ''}}">
-          {{character.gender === "male"? "♂️" : character.gender === "female"? "♀":
-          "N/A"}}
+        <td class="tdata" [ngClass]="getGenderClass(character.gender)">
+          {{getGenderSymbol(character.gender)}}
         </td>
         <td class="tdata">{{character.height}}</td>
         <td class="tdata">{{character.mass}}</td>
@@ -28,6 +27,7 @@
     </table>
   </div>
 </div>
-<div *ngIf="loading" class="flex justify-center items-center">
+
+<div *ngIf="loading" class="flex justify-center items-center mt-1">
   <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-yellow-200"></div>
 </div>

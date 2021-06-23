@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import axios, { AxiosResponse } from 'axios';
 import { CharacterResults, Character } from 'src/assets/interfaces';
+import { Observable } from 'rxjs';
 
 const options = {
   headers: new HttpHeaders({
@@ -14,6 +15,7 @@ const options = {
 })
 export class ApiService {
   peopleUrl: string = 'https://swapi.dev/api/people/?page=';
+  searchUrl: string = 'https://swapi.dev/api/people/?search=';
   constructor(private httpClient: HttpClient) {}
 
   async getPage(number: number): Promise<CharacterResults> {
@@ -27,6 +29,15 @@ export class ApiService {
       characters: characters,
       count: result.data.count,
     };
+  }
+
+  async searchForCharacter(searchTerm: string): Promise<Character[]> {
+    const url: string = `${this.searchUrl}${searchTerm}`;
+    const result: AxiosResponse = await axios.get(url);
+    const characters: Character[] = await this.fetchAdditionalInfo(
+      result?.data.results
+    );
+    return characters;
   }
 
   private async fetchAdditionalInfo(

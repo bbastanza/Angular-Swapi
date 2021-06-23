@@ -8,7 +8,7 @@ body {
 
 .btn {
   @apply text-gray-800 font-semibold;
-  @apply px-5 py-3;
+  @apply px-5 py-1;
   @apply m-1;
   @apply rounded;
   transition: 200ms;

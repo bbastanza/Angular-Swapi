@@ -1,15 +1,15 @@
 <div class="container outer">
   <div class="search">
-    <label class="label" for="searchTerm">Search the Galaxy...</label>
+    <label class="label text-4xl" for="searchTerm">Search the Galaxy...</label>
     <br />
-    <input [(ngModel)]="searchTerm" id="searchTerm" class="input" type="text"
+    <input [(ngModel)]="searchTerm" (ngModelChange)="handleChange()" id="searchTerm" class="input" type="text"
       placeholder="I am one with the force" />
   </div>
-  <app-pagination (onSelected)="getPage($event)"></app-pagination>
+  <app-pagination [characterCount]="pageCount" (onSelected)="getPage($event)"></app-pagination>
   <br />
   <app-table [loading]="loading" [characters]="characters"></app-table>
   <br />
   <a routerLink="">
-    <button class="btn bg-yellow-300">Back</button>
+    <button class="btn bg-yellow-300">Home</button>
   </a>
 </div>

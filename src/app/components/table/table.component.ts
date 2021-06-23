@@ -13,4 +13,12 @@ export class TableComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  getGenderClass(gender: string) {
+    return gender === 'male' || gender === 'female' ? 'text-4xl' : '';
+  }
+
+  getGenderSymbol(gender: string) {
+    return gender === 'male' ? '♂️' : gender === 'female' ? '♀' : 'N/A';
+  }
 }
