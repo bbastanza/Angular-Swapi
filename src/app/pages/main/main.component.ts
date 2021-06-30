@@ -49,7 +49,7 @@ export class MainComponent implements OnInit, OnDestroy {
       const characters$ = this.apiService.searchForCharacter(this.searchTerm);
       this.subscription = characters$.subscribe(
         (characters) => {
-          this.characters = characters;
+          this.characters = this.sortCharacters(characters);
           this.loading = false;
         },
         console.log,
