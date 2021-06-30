@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import axios, { AxiosResponse } from 'axios';
-import { CharacterResults, Character } from 'src/assets/interfaces';
+import axios from 'axios';
 import { Observable } from 'rxjs';
+import { mergeMap, tap } from 'rxjs/operators';
+import {
+  CharacterResults,
+  Character,
+  AdditionalInfo,
+} from 'src/assets/interfaces';
 
 const options = {
   headers: new HttpHeaders({
@@ -16,51 +21,59 @@ const options = {
 export class ApiService {
   peopleUrl: string = 'https://swapi.dev/api/people/?page=';
   searchUrl: string = 'https://swapi.dev/api/people/?search=';
+
   constructor(private httpClient: HttpClient) {}
 
-  async getPage(number: number): Promise<CharacterResults> {
+  getPage(number: number): Observable<CharacterResults> {
     const url: string = `${this.peopleUrl}${number}`;
-    const result: AxiosResponse = await axios.get(url);
-    const characters: Character[] = await this.fetchAdditionalInfo(
-      result?.data.results
+    return this.httpClient.get<CharacterResults>(url, options).pipe(
+      tap(console.log),
+      mergeMap(async (characterResults: CharacterResults) => {
+        return {
+          results: await this.fetchAdditionalInfo(characterResults.results),
+          count: characterResults.count,
+        };
+      })
     );
-
-    return {
-      characters: characters,
-      count: result.data.count,
-    };
   }
 
-  async searchForCharacter(searchTerm: string): Promise<Character[]> {
+  searchForCharacter(searchTerm: string): Observable<Character[]> {
     const url: string = `${this.searchUrl}${searchTerm}`;
-    const result: AxiosResponse = await axios.get(url);
-    const characters: Character[] = await this.fetchAdditionalInfo(
-      result?.data.results
-    );
-    return characters;
+    return this.httpClient
+      .get<CharacterResults>(url, options)
+      .pipe(
+        mergeMap(
+          async (characterResults: CharacterResults) =>
+            await this.fetchAdditionalInfo(characterResults.results)
+        )
+      );
   }
 
   private async fetchAdditionalInfo(
     characters: Character[]
   ): Promise<Character[]> {
-    const homeworldPromises: Promise<string>[] = characters.map((character) =>
-      axios.get(character.homeworld)
+    const speciesPromises: Promise<AdditionalInfo>[] = characters.reduce(
+      (promises: Promise<AdditionalInfo>[], character: Character) =>
+        !!character.species.length
+          ? [...promises, axios.get(character.species[0])]
+          : promises,
+      []
     );
-    const speciesPromises: Promise<string>[] = [];
-    for (const character of characters) {
-      if (character.species.length > 0)
-        speciesPromises.push(axios.get(character.species[0]));
-    }
 
-    const specieses: any[] = await Promise.all(speciesPromises);
-    const homeworlds: any[] = await Promise.all(homeworldPromises);
+    const homeworldPromises: Promise<AdditionalInfo>[] = characters.map(
+      (character) => axios.get(character.homeworld)
+    );
+
+    const [specieses, homeworlds]: AdditionalInfo[][] = await Promise.all([
+      Promise.all(speciesPromises),
+      Promise.all(homeworldPromises),
+    ]);
 
     let spiciesIdx: number = 0;
-
     for (let i = 0; i < characters.length; i++) {
       characters[i].homeworldName = homeworlds[i].data.name;
 
-      if (characters[i].species.length > 0) {
+      if (!!characters[i].species.length) {
         characters[i].speciesName = specieses[spiciesIdx].data.name;
         spiciesIdx++;
         continue;

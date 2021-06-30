@@ -13,6 +13,14 @@ export interface Character {
 }
 
 export interface CharacterResults {
-  characters: Character[];
+  results: Character[];
   count: number;
+}
+
+export interface AdditionalInfo {
+  data: AdditionalInfoData;
+}
+
+export interface AdditionalInfoData {
+  name: string;
 }
